@@ -23,8 +23,39 @@ static void update_head(game_state_t* state, unsigned int snum);
 
 /* Tarea 1 */
 game_state_t* create_default_state() {
-  // TODO: Implementar esta funcion.
-  return NULL;
+	game_state_t* state = malloc(sizeof(game_state_t));
+	state->num_filas = 18;
+
+	state->board = malloc(sizeof(char*) * state->num_filas);
+	for (unsigned int i = 0; i < state->num_filas; i++){
+	  state->board[i] = malloc(sizeof(char) * 21);
+	  for (unsigned int j = 0; j < 20; j++){
+	    if (i==0 || i == 17){
+	      state->board[i][j] = '#';
+	    } else if (j == 0 || j == 19){
+	      state->board[i][j] = '#';
+	    } else {
+	      state->board[i][j] = ' ';
+	    }
+	  }
+	  state->board[i][20] = '\0'; 
+  }
+
+  state->board[2][9] = '*';
+
+  state->board[2][3] = 'd';
+  state->board[2][3] = '>';
+  state->board[2][4] = 'D';
+
+  state->num_serpiente = 1;
+  state->serpientes = malloc(sizeof(snake_t));
+  state->serpientes[0].tail_row = 2;
+  state->serpientes[0].tail_col = 2;
+  state->serpientes[0].head_row = 2;
+  state->serpientes[0].head_col = 4;
+  state->serpientess[0].live = true;
+
+  return state;
 }
 
 
