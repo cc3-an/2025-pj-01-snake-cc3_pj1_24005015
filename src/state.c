@@ -210,7 +210,7 @@ static unsigned int get_next_col(unsigned int cur_col, char c) {
 */
 static char next_square(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
-  snake_t *snake = state->snakes[snum];
+  snake_t *snake = &state->snakes[snum];
   char head = get_board_at(state, snake->head_row, snake->head_col);
   unsigned int next_row = get_next_row(snake->head_row, head);
   unsigned int next_col = get_next_col(snake->head_col, head);
@@ -232,7 +232,7 @@ static char next_square(game_state_t* state, unsigned int snum) {
 */
 static void update_head(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
-  snake_t *snake = state->snakes[snum];
+  snake_t *snake = &state->snakes[snum];
   char head = get_board_at(state, snake->head_row, snake->head_col);
   char body = head_to_body(head);
   set_board_at(state, snake_row, next_col, head);
