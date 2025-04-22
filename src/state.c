@@ -163,6 +163,15 @@ static bool is_snake(char c) {
 */
 static char body_to_tail(char c) {
   // TODO: Implementar esta funcion.
+
+  char body_chars[] = {'^', '<', 'v'};
+  char tail_chars[] = {'w', 'a', 's'}; 
+
+  for (int i = 0; i < 3; i++) {
+    if (c == body_chars[i]) {
+      return tail_chars[i];
+    }
+  }
   return '?';
 }
 
