@@ -174,7 +174,17 @@ static char body_to_tail(char c) {
 */
 static char head_to_body(char c) {
   // TODO: Implementar esta funcion.
-  return '?';
+  if (c == 'W') {
+    return '^';  
+  } else if (c == 'A') {
+    return '<';  
+  } else if (c == 'S') {
+    return 'v';  
+  } else if (c == 'D') {
+    return '>'; 
+  } else {
+    return '?'; 
+  }
 }
 
 
