@@ -79,6 +79,9 @@ void free_state(game_state_t* state) {
 /* Tarea 3 */
 void print_board(game_state_t* state, FILE* fp) {
   // TODO: Implementar esta funcion.
+  for (unsigned int i = 0; i < state-num_rows; i++) {
+    fprintf(fp,"%s\n", state->board[i]);
+  }
   return;
 }
 
