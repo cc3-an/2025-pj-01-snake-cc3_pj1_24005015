@@ -243,6 +243,8 @@ static char next_square(game_state_t* state, unsigned int snum) {
 */
 static void update_head(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
+  snake_t* snake = &state->snakes[snum];
+  
   char head = get_board_at(state, snake->head_row, snake->head_col);
   char body = head_to_body(head);
   unsigned int next_row = get_next_row(snake->head_row, head);
