@@ -322,6 +322,36 @@ if (!snake->live) return;
 /* Tarea 4.5 */
 void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
   // TODO: Implementar esta funcion.
+  for (unsigned int i = 0; i < state->num_snakes; i++) {
+    snake_t* snake = &state->snakes[i];
+    if (!snake->live) {
+      continue;
+    }
+
+    unsigned int head_row = snake->head_row;
+    unsigned int head_col = snake->head_col;
+    char head_char = get_board_at(state, head_row, head_col);
+
+    int next_row = get_next_row(head_row, head_char);
+    int next_col = get_next_col(head_col, head_char);
+    char next_square = get_board_at(state, next_row, next_col);
+
+    if (next_square == '#' || is_snake(next_square)) {
+      snake->live = false;
+      set_board_at(state, head_row, head_col, 'x'); 
+    } else {
+      set_board_at(state, head_row, head_col, head_to_body(head_char));
+      set_board_at(state, next_row, next_col, head_char);
+      snake->head_row = next_row;
+      snake->head_col = next_col;
+
+      if (next_square != '*') {
+        update_tail(state, i);
+      } else if (add_food != NULL) {
+        add_food(state);
+      }
+    }
+  }
   return;
 }
 
