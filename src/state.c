@@ -235,6 +235,10 @@ static void update_head(game_state_t* state, unsigned int snum) {
   snake_t *snake = &state->snakes[snum];
   char head = get_board_at(state, snake->head_row, snake->head_col);
   char body = head_to_body(head);
+  set_board_at(state, snake_row, next_col, body);
+  
+  unsigned int next_row = get_next_row(snake->head_row, head);
+  unsigned int next_col = get_next_col(snake->head_col, head);
   set_board_at(state, snake_row, next_col, head);
 
   snake->head_row = next_row;
