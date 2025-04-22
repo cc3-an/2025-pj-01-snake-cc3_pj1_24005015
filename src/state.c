@@ -44,7 +44,7 @@ game_state_t* create_default_state() {
 
   state->board[2][9] = '*';
 
-  state->board[2][3] = 'd';
+  state->board[2][2] = 'd';
   state->board[2][3] = '>';
   state->board[2][4] = 'D';
 
