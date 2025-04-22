@@ -214,7 +214,12 @@ static char next_square(game_state_t* state, unsigned int snum) {
   char head = get_board_at(state, snake->head_row, snake->head_col);
   unsigned int next_row = get_next_row(snake->head_row, head);
   unsigned int next_col = get_next_col(snake->head_col, head);
-  return get_board_at(state, next_row, next_col);
+
+  char next = get_board_at(state, next_row, next_col);
+
+  fprintf(stderr, "[Debug] Snake %u head: %c at (%u, %u) -> next (%u, %u): %c\n",
+          snum, head, snake->head_row, snake->head_col, next_row, next_col, next);
+  return next;
 }
 
 
