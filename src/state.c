@@ -291,8 +291,8 @@ static void update_tail(game_state_t* state, unsigned int snum) {
 
     set_board_at(state, tail_row, tail_col, ' ');
 
-    unsigned int prev_tail_row = snake->tail_row;
-    unsigned int prev_tail_col = snake->tail_col;
+    unsigned int new_tail_row = snake->tail_row;
+    unsigned int new_tail_col = snake->tail_col;
 
     snake->tail_row = new_tail_row;
     snake->tail_col = new_tail_col;
