@@ -23,22 +23,23 @@ static void update_head(game_state_t* state, unsigned int snum);
 
 /* Tarea 1 */
 game_state_t* create_default_state() {
-	game_state_t* state = malloc(sizeof(game_state_t));
-	state->num_filas = 18;
+  game_state_t* state = malloc(sizeof(game_state_t));
+  state->num_rows = 18;
 
-	state->board = malloc(sizeof(char*) * state->num_filas);
-	for (unsigned int i = 0; i < state->num_filas; i++){
-	  state->board[i] = malloc(sizeof(char) * 21);
-	  for (unsigned int j = 0; j < 20; j++){
-	    if (i==0 || i == 17){
-	      state->board[i][j] = '#';
-	    } else if (j == 0 || j == 19){
-	      state->board[i][j] = '#';
-	    } else {
-	      state->board[i][j] = ' ';
-	    }
-	  }
-	  state->board[i][20] = '\0'; 
+  state->board = malloc(sizeof(char*) * state->num_rows);
+
+  for (unsigned int i = 0; i < state->num_rows; i++) {
+    state->board[i] = malloc(sizeof(char) * 21); 
+    for (unsigned int j = 0; j < 20; j++) {
+      if (i == 0 || i == 17) {
+        state->board[i][j] = '#';  
+      } else if (j == 0 || j == 19) {
+        state->board[i][j] = '#';  
+      } else {
+        state->board[i][j] = ' ';  
+      }
+    }
+    state->board[i][20] = '\0'; 
   }
 
   state->board[2][9] = '*';
