@@ -97,7 +97,13 @@ void save_board(game_state_t* state, char* filename) {
 }
 
 /* Tarea 4.1 */
-
+bool is_tail(char c);
+bool is_head(char c);
+bool is_snake(char c);
+char body_to_tail(char c);
+char head_to_body(char c);
+unsigned int get_next_row(unsigned int cur_row, char c);
+unsigned int get_next_col(unsigned int cur_col, char c);
 
 /**
  * Funcion de ayuda que obtiene un caracter del tablero dado una fila y columna
