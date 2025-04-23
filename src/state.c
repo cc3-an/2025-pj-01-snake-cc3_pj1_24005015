@@ -290,7 +290,7 @@ static void update_tail(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
   snake_t *snake = &state->snakes[snum];
 
-if (!snake->live) return;
+  if (!snake->live) return;
 
   unsigned int tail_row = snake->tail_row;
   unsigned int tail_col = snake->tail_col;
@@ -309,6 +309,7 @@ if (!snake->live) return;
   char body_char = get_board_at(state, new_row, new_col);
   char new_tail_char = body_to_tail(body_char);
 
+  set_board_at(state,tail_row, tail_col, ' ');
   set_board_at(state, new_row, new_col, new_tail_char);
   snake->tail_row = new_row;
   snake->tail_col = new_col;
