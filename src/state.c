@@ -294,17 +294,17 @@ static void update_tail(game_state_t* state, unsigned int snum) {
 
   unsigned int tail_row = snake->tail_row;
   unsigned int tail_col = snake->tail_col;
-  char tail_dir = get_board_at(state, tail_row, tail_col);
+  char tail_char = get_board_at(state, tail_row, tail_col);
 
   set_board_at(state, tail_row, tail_col, ' ');
 
   int new_row = tail_row;
   int new_col = tail_col;
 
-  if (tail_dir == 'w') new_row--;
-  else if (tail_dir == 's') new_row++;
-  else if (tail_dir == 'a') new_col--;
-  else if (tail_dir == 'd') new_col++;
+  if (tail_char == 'w') new_row--;
+  else if (tail_char == 's') new_row++;
+  else if (tail_char == 'a') new_col--;
+  else if (tail_char == 'd') new_col++;
 
   char body_char = get_board_at(state, new_row, new_col);
   char new_tail_char = body_to_tail(body_char);
@@ -331,6 +331,26 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 
     int next_row = get_next_row(head_row, head_char);
     int next_col = get_next_col(head_col, head_char);
+    if (next_square == '#' || is_snake(next_square)) {
+      snake->live = false;
+      set_board_at(state, head_row, head_col, head_to_body(head_char));
+      set_board_at(state, head_row, head_col, 'x'); 
+      continue;
+    }
+    set_board_at(state, head_row, head_col, head_to_body(head_char));
+    set_board_at(state, next_row, next_col, head_char);
+    snake->head_row = next_row;
+    snake->head_col = next_col;
+
+    if (next_square == '*') {
+      if (add_food != NULL) {
+        add_food(state);
+      }
+    } else {
+        update_tail(state, i);
+    }
+  } 
+}
     char next_square = get_board_at(state, next_row, next_col);
 
     if (next_square == '#' || is_snake(next_square)) {
