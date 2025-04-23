@@ -398,5 +398,31 @@ static void find_head(game_state_t* state, unsigned int snum) {
 /* Tarea 6.2 */
 game_state_t* initialize_snakes(game_state_t* state) {
   // TODO: Implementar esta funcion.
-  return NULL;
+state->num_snakes = 0;
+
+    state->snakes = malloc(sizeof(snake_t) * state->num_rows); 
+
+    for (unsigned int i = 0; i < state->num_rows; i++) {
+        for (unsigned int j = 0; j < state->row_lengths[i]; j++) {
+            char tile = get_board_at(state, i, j);
+
+            if (tile == '^' || tile == 'v' || tile == '<' || tile == '>') {
+                snake_t* snake = &state->snakes[state->num_snakes];
+                snake->tail_row = i;
+                snake->tail_col = j;
+                snake->live = true;
+
+                find_head(state, state->num_snakes);
+                
+                state->num_snakes++;
+            }
+        }
+    }
+    
+    if (state->num_snakes == 0) {
+        printf("No se encontraron serpientes en el tablero.\n");
+        free(state->snakes);
+        return NULL;
+    }
+  return state;
 }
