@@ -130,8 +130,8 @@ static void set_board_at(game_state_t* state, unsigned int row, unsigned int col
  * Retorna false de lo contrario.
 */
 static bool is_tail(char c) {
-  // TODO: Implementar esta funcion.
-  return true;
+  // TODO: Implementar esta funcion
+  return c == 'w'|| c == 'a' || c == 's' || c == 'd';
 }
 
 
@@ -142,7 +142,7 @@ static bool is_tail(char c) {
 */
 static bool is_head(char c) {
   // TODO: Implementar esta funcion.
-  return true;
+  return c == 'W' || c == 'A' || c == 'S' || c == 'D' || c == 'x';
 }
 
 
@@ -152,7 +152,7 @@ static bool is_head(char c) {
 */
 static bool is_snake(char c) {
   // TODO: Implementar esta funcion.
-  return true;
+  return is_tail(c) || is_head(c) || c == '^' || c == '<' || c == 'v' || c == '>';
 }
 
 
