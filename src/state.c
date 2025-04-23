@@ -351,7 +351,7 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
     }
   } 
 }
-    char next_square = get_board_at(state, next_row, next_col);
+    char next_tile = get_board_at(state, next_row, next_col);
 
     if (next_square == '#' || is_snake(next_square)) {
       snake->live = false;
