@@ -379,10 +379,10 @@ game_state_t* load_board(char* filename) {
 
         state->board = realloc(state->board, sizeof(char*) * (state->num_rows + 1));
         state->board[state->num_rows] = strdup(buffer);
-        state->num_rows++
+        state->num_rows++;
     }
 
-    fclose(f);
+    fclose(fp);
     return state;
 }
 
@@ -430,7 +430,7 @@ state->num_snakes = 0;
     state->snakes = malloc(sizeof(snake_t) * state->num_rows); 
 
     for (unsigned int i = 0; i < state->num_rows; i++) {
-        for (unsigned int j = 0; j < state->row_lengths[i]; j++) {
+        for (unsigned int j = 0; j < strelen(state->board[i]); j++) {
             char tile = get_board_at(state, i, j);
 
             if (tile == '^' || tile == 'v' || tile == '<' || tile == '>') {
