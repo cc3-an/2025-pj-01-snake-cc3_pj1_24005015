@@ -378,7 +378,7 @@ game_state_t* load_board(char* filename) {
         }
 
         state->board = realloc(state->board, sizeof(char*) * (state->num_rows + 1));
-        state->board[state->num_rows] = strcmp(buffer);
+        state->board[state->num_rows] = strdup(buffer);
         state->num_rows++;
     }
 
