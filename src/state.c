@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "snake_utils.h"
+#define _GNU_SOURCE
 
 // Definiciones de funciones de ayuda.
 static void set_board_at(game_state_t* state, unsigned int row, unsigned int col, char ch);
