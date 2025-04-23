@@ -164,11 +164,11 @@ static bool is_snake(char c) {
 static char body_to_tail(char c) {
   // TODO: Implementar esta funcion.
 
-  if (c == '^') return 'w';
-  if (c == '<') return 'a';
-  if (c == 'v') return 's';
-  if (c == '>') return 'd';
-  return '?';
+  if (c == '^' || c == 'W') return 'w';
+  if (c == '<' || c == 'A') return 'a';
+  if (c == 'v' || c == 'S') return 's';
+  if (c == '>' || c == 'D') return 'd';
+  return ' ';
 }
 
 
