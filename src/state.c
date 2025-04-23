@@ -349,7 +349,7 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
         add_food(state);
       }
     } else {
-        update_tail(state, i);
+      update_tail(state, i);
     }
   } 
 }
