@@ -306,11 +306,6 @@ static void update_tail(game_state_t* state, unsigned int snum) {
   else if (tail_char == 'a') new_col--;
   else if (tail_char == 'd') new_col++;
 
-  char body_char = get_board_at(state, new_row, new_col);
-  char new_tail_char = body_to_tail(body_char);
-
-  set_board_at(state,tail_row, tail_col, ' ');
-  set_board_at(state, new_row, new_col, new_tail_char);
   snake->tail_row = new_row;
   snake->tail_col = new_col;
 
