@@ -287,9 +287,8 @@ static void update_head(game_state_t* state, unsigned int snum) {
  * ...en la estructura snake: actualizar el row y col de la cola
 */
 static void update_tail(game_state_t* state, unsigned int snum) {
-  // TODO: Implementar esta funcion.
-  snake_t *snake = &state->snakes[snum];
 
+  snake_t *snake = &state->snakes[snum];
   if (!snake->live) return;
 
   unsigned int tail_row = snake->tail_row;
@@ -356,8 +355,8 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 /* Tarea 5 */
 game_state_t* load_board(char* filename) {
   // TODO: Implementar esta funcion.
-    FILE* f = fopen(filename, "r");
-    if (f == NULL) {
+    FILE* fp = &fopen(filename, "r");
+    if (fp == NULL) {
         perror("Error al abrir archivo");
         return NULL;
     }
@@ -374,17 +373,15 @@ game_state_t* load_board(char* filename) {
     while (fgets(buffer, MAX_LINE_LENGTH, f)) {
         size_t len = strlen(buffer);
 
-        // Eliminar salto de línea final si existe
         if (len > 0 && buffer[len - 1] == '\n') {
             buffer[len - 1] = '\0';
             len--;
         }
 
-        // Reservar espacio para nueva fila
         state->board = realloc(state->board, sizeof(char*) * (state->num_rows + 1));
         state->row_lengths = realloc(state->row_lengths, sizeof(unsigned int) * (state->num_rows + 1));
 
-        char* row = malloc(sizeof(char) * (len + 1)); // +1 por el '\0'
+        char* row = malloc(sizeof(char) * (len + 1)); 
         strcpy(row, buffer);
 
         state->board[state->num_rows] = row;
