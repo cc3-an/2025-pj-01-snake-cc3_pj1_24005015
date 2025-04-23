@@ -371,44 +371,28 @@ game_state_t* load_board(char* filename) {
 */
 static void find_head(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
-    FILE* f = fopen(filename, "r");
-    if (f == NULL) {
-        perror("Error al abrir archivo");
-        return NULL;
+    snake_t* snake = &state->snakes[snum];
+    
+    unsigned int tail_row = snake->tail_row;
+    unsigned int tail_col = snake->tail_col;
+    
+    char tail_char = get_board_at(state, tail_row, tail_col);
+    
+    unsigned int head_row = tail_row;
+    unsigned int head_col = tail_col;
+    
+    if (tail_char == 'w') {
+        head_row++; 
+    } else if (tail_char == 's') {
+        head_row--; 
+    } else if (tail_char == 'a') {
+        head_col++; 
+    } else if (tail_char == 'd') {
+        head_col--; 
     }
-
-    game_state_t* state = malloc(sizeof(game_state_t));
-    state->num_rows = 0;
-    state->board = NULL;
-    state->row_lengths = NULL;
-    state->num_snakes = 0;
-    state->snakes = NULL;
-
-    char buffer[MAX_LINE_LENGTH];
-
-    while (fgets(buffer, MAX_LINE_LENGTH, f)) {
-        size_t len = strlen(buffer);
-
-        // Eliminar salto de línea final si existe
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
-            len--;
-        }
-
-        // Reservar espacio para nueva fila
-        state->board = realloc(state->board, sizeof(char*) * (state->num_rows + 1));
-        state->row_lengths = realloc(state->row_lengths, sizeof(unsigned int) * (state->num_rows + 1));
-
-        char* row = malloc(sizeof(char) * (len + 1)); // +1 por el '\0'
-        strcpy(row, buffer);
-
-        state->board[state->num_rows] = row;
-        state->row_lengths[state->num_rows] = (unsigned int)len;
-        state->num_rows++;
-    }
-
-    fclose(f);
-    return state;
+    
+    snake->head_row = head_row;
+    snake->head_col = head_col;
 }
 
 /* Tarea 6.2 */
