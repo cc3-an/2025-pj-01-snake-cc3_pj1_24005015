@@ -164,14 +164,10 @@ static bool is_snake(char c) {
 static char body_to_tail(char c) {
   // TODO: Implementar esta funcion.
 
-  char body_chars[] = {'^', '<', 'v', '>'};
-  char tail_chars[] = {'w', 'a', 's', 'd'}; 
-
-  for (int i = 0; i < 4; i++) {
-    if (c == body_chars[i]) {
-      return tail_chars[i];
-    }
-  }
+  if (c == '^') return 'w';
+  if (c == '<') return 'a';
+  if (c == 'v') return 's';
+  if (c == '>') return 'd';
   return '?';
 }
 
@@ -298,7 +294,7 @@ if (!snake->live) return;
 
   unsigned int tail_row = snake->tail_row;
   unsigned int tail_col = snake->tail_col;
-  char tail_char = get_board_at(state, tail_row, tail_col);
+  char tail_dir = get_board_at(state, tail_row, tail_col);
 
   set_board_at(state, tail_row, tail_col, ' ');
 
