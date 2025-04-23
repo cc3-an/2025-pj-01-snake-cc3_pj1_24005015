@@ -301,10 +301,10 @@ if (!snake->live) return;
   int new_row = tail_row;
   int new_col = tail_col;
 
-  if (tail_char == 'w') new_row--;
-  else if (tail_char == 's') new_row++;
-  else if (tail_char == 'a') new_col--;
-  else if (tail_char == 'd') new_col++;
+  if (tail_dir == 'w') new_row--;
+  else if (tail_dir == 's') new_row++;
+  else if (tail_dir == 'a') new_col--;
+  else if (tail_dir == 'd') new_col++;
 
   char body_char = get_board_at(state, new_row, new_col);
   char new_tail_char = body_to_tail(body_char);
