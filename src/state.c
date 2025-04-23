@@ -355,34 +355,59 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 /* Tarea 5 */
 game_state_t* load_board(char* filename) {
   // TODO: Implementar esta funcion.
-    FILE* fp = fopen(filename, "r");
+    FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
-        perror("Error al abrir archivo");
+        fprintf(stderr, "Error al abrir archivo", filename);
         return NULL;
     }
 
     game_state_t* state = malloc(sizeof(game_state_t));
+    if (state == NULL) {
+        fprintf(stderr, "Error: no se pudo asignar memoria para el estado\n");
+        fclose(fp);
+        exit(1);
+    }
+
     state->num_rows = 0;
-    state->board = NULL;
-    state->snakes = NULL;
     state->num_snakes = 0;
+    state->snakes = NULL;
+    state->board = malloc(sizeof(char *) * MAX_ROWS);
+    if (state->board == NULL) {
+        fprintf(stderr, "Error: no se pudo asignar memoria para el tablero\n");
+        free(state);
+        fclose(fp);
+        exit(1);
+    }
 
-    char buffer[1024]; 
-
-    while (fgets(buffer, sizeof(buffer), fp)) {
+    char buffer[MAX_COLS + 2]; 
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
         size_t len = strlen(buffer);
 
         if (len > 0 && buffer[len - 1] == '\n') {
             buffer[len - 1] = '\0';
-            len--;
         }
 
-        state->board = realloc(state->board, sizeof(char*) * (state->num_rows + 1));
-        state->board[state->num_rows] = strdup(buffer);
+        state->board[state->num_rows] = malloc(strlen(buffer) + 1);
+        if (state->board[state->num_rows] == NULL) {
+            fprintf(stderr, "Error: no se pudo asignar memoria para una fila\n");
+
+            for (int i = 0; i < state->num_rows; ++i) {
+                free(state->board[i]);
+            }
+            free(state->board);
+            free(state);
+            fclose(fp);
+            exit(1);
+        }
+
+        strcpy(state->board[state->num_rows], buffer);
         state->num_rows++;
     }
 
     fclose(fp);
+
+    state->snakes = find_snakes(state, &state->num_snakes);
+
     return state;
 }
 
