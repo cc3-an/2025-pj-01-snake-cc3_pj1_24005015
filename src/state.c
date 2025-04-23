@@ -200,9 +200,12 @@ static char head_to_body(char c) {
 */
 static unsigned int get_next_row(unsigned int cur_row, char c) {
   // TODO: Implementar esta funcion.
-  fprintf(stderr, "get_next_row: cur_row = %u, c = %c\n", cur_row, c); 
-  if (c == 'v' || c == 's' || c == 'S') return cur_row + 1;
-  if (c == '^' || c == 'w' || c == 'W') return cur_row - 1;
+  if (c == 'v' || c == 's' || c == 'S') {
+    return (cur_row + 1) % BOARD_HEIGHT;  
+  }
+  if (c == '^' || c == 'w' || c == 'W') {
+    return (cur_row - 1 + BOARD_HEIGHT) % BOARD_HEIGHT;  
+  }
   return cur_row;
 }
 
@@ -214,9 +217,12 @@ static unsigned int get_next_row(unsigned int cur_row, char c) {
 */
 static unsigned int get_next_col(unsigned int cur_col, char c) {
   // TODO: Implementar esta funcion.
-  fprintf(stderr, "get_next_col: cur_col = %u, c = %c\n", cur_col, c); 
-  if (c == '>' || c == 'd' || c == 'D') return cur_col + 1;
-  if (c == '<' || c == 'a' || c == 'A') return cur_col - 1;
+  if (c == '>' || c == 'd' || c == 'D') {
+    return (cur_col + 1) % BOARD_WIDTH;  
+  }
+  if (c == '<' || c == 'a' || c == 'A') {
+    return (cur_col - 1 + BOARD_WIDTH) % BOARD_WIDTH;  
+  }
   return cur_col;
 }
 
