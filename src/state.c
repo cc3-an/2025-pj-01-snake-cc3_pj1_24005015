@@ -357,7 +357,7 @@ game_state_t* load_board(char* filename) {
   // TODO: Implementar esta funcion.
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
-        fprintf(stderr, "Error al abrir archivo", filename);
+        fprintf(stderr, "Error al abrir archivo: %s\n", filename);
         return NULL;
     }
 
@@ -367,48 +367,48 @@ game_state_t* load_board(char* filename) {
         fclose(fp);
         exit(1);
     }
-
+    state->board = NULL;
     state->num_rows = 0;
-    state->num_snakes = 0;
     state->snakes = NULL;
-    state->board = malloc(sizeof(char *) * MAX_ROWS);
-    if (state->board == NULL) {
-        fprintf(stderr, "Error: no se pudo asignar memoria para el tablero\n");
-        free(state);
-        fclose(fp);
-        exit(1);
-    }
+    state->num_snakes = 0;
 
-    char buffer[MAX_COLS + 2]; 
-    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
-        size_t len = strlen(buffer);
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
 
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
+    while ((read = getline(&line, &len, fp)) != -1) {
+        if (read > 0 && line[read - 1] == '\n') {
+            line[read - 1] = '\0';
+            read--;
         }
-
-        state->board[state->num_rows] = malloc(strlen(buffer) + 1);
-        if (state->board[state->num_rows] == NULL) {
-            fprintf(stderr, "Error: no se pudo asignar memoria para una fila\n");
-
-            for (int i = 0; i < state->num_rows; ++i) {
-                free(state->board[i]);
-            }
-            free(state->board);
-            free(state);
+        char **new_board = realloc(state->board, sizeof(char *) * (state->num_rows + 1));
+        if (new_board == NULL) {
+            fprintf(stderr, "Error: no se pudo realocar memoria para el tablero\n");
+            free(line);
             fclose(fp);
             exit(1);
         }
+        state->board = new_board;
 
-        strcpy(state->board[state->num_rows], buffer);
+        char *row_copy = malloc(read + 1);
+        if (row_copy == NULL) {
+            fprintf(stderr, "Error: no se pudo asignar memoria para una fila\n");
+            free(line);
+            fclose(fp);
+            exit(1);
+        }
+        strcpy(row_copy, line);
+        state->board[state->num_rows] = row_copy;
         state->num_rows++;
     }
 
+    free(line);
     fclose(fp);
 
     state->snakes = find_snakes(state, &state->num_snakes);
 
-    return state;
+    return state;         
+
 }
 
 
