@@ -334,10 +334,10 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 
     if (next_tile == '#' || is_snake(next_tile)) {
       snake->live = false;
-      set_board_at(state, head_row, head_col, head_to_body(head_char));
       set_board_at(state, head_row, head_col, 'x'); 
       continue;
     }
+
     set_board_at(state, head_row, head_col, head_to_body(head_char));
     set_board_at(state, next_row, next_col, head_char);
     snake->head_row = next_row;
