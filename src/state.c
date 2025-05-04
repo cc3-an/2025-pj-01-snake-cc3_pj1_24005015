@@ -466,7 +466,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
     for (unsigned int row = 0; row < state->num_rows; row++) {
         for (unsigned int col = 0; col < strlen(state->board[row]); col++) {
-            char c state->board[row][col];
+            char c = state->board[row][col];
 
             if (c == '^' || c == 'v' || c == '<' || c == '>') {
                 num++;
