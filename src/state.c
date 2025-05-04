@@ -459,8 +459,8 @@ static void find_head(game_state_t* state, unsigned int snum) {
         }
     }
 
-    snake->head_row = head_row;
-    snake->head_col = head_col;
+    snake->head_row = row;
+    snake->head_col = col;
 }
 
 /* Tarea 6.2 */
