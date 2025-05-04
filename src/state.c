@@ -6,7 +6,6 @@
 #include <string.h>
 
 #include "snake_utils.h"
-#define _GNU_SOURCE
 
 // Definiciones de funciones de ayuda.
 static void set_board_at(game_state_t* state, unsigned int row, unsigned int col, char ch);
@@ -373,37 +372,32 @@ game_state_t* load_board(char* filename) {
     state->snakes = NULL;
     state->num_snakes = 0;
 
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
-
-    while ((read = getline(&line, &len, fp)) != -1) {
-        if (read > 0 && line[read - 1] == '\n') {
-            line[read - 1] = '\0';
-            read--;
+    char buffer[1024];
+    while (fgets(buffer, sizeof(buffer), fp)) {
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len - 1] == '\n') {
+            buffer[len - 1] = '\0';
         }
+
         char **new_board = realloc(state->board, sizeof(char *) * (state->num_rows + 1));
         if (new_board == NULL) {
             fprintf(stderr, "Error: no se pudo realocar memoria para el tablero\n");
-            free(line);
             fclose(fp);
             exit(1);
         }
         state->board = new_board;
 
-        char *row_copy = malloc(read + 1);
+        char *row_copy = malloc(len + 1);
         if (row_copy == NULL) {
             fprintf(stderr, "Error: no se pudo asignar memoria para una fila\n");
-            free(line);
             fclose(fp);
             exit(1);
         }
-        strcpy(row_copy, line);
+        strcpy(row_copy, buffer);
         state->board[state->num_rows] = row_copy;
         state->num_rows++;
     }
 
-    free(line);
     fclose(fp);
 
     state->snakes = find_snakes(state, &state->num_snakes);
