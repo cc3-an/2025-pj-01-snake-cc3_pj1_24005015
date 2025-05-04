@@ -442,17 +442,13 @@ static void find_head(game_state_t* state, unsigned int snum) {
     while (true) {
         char c = get_board_at(state, row, col);
 
-        if (c == '^') {
-            row--;
-        } else if (c == 'v') {
-            row++;
-        } else if (c == '<') {
-            col--;
-        } else if (c == '>') {
-            col++;
-        } else {
+        if (c == '^' || c == 'v' || c == '<' || c == '>') {
             break;
         }
+
+        row = get_next_row(row, c);
+        col = get_next_col(col, c);
+
     }
 
     snake->head_row = row;
