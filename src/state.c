@@ -440,15 +440,15 @@ static void find_head(game_state_t* state, unsigned int snum) {
     unsigned int col = snake->tail_col;
     
     while (true) {
-        char current = get_board_at(state, row, col);
+        char c = get_board_at(state, row, col);
 
-        if (current == '^') {
+        if (c == '^') {
             row--;
-        } else if (current == 'v') {
+        } else if (c == 'v') {
             row++;
-        } else if (current == '<') {
+        } else if (c == '<') {
             col--;
-        } else if (current == '>') {
+        } else if (c == '>') {
             col++;
         } else {
             break;
@@ -462,31 +462,33 @@ static void find_head(game_state_t* state, unsigned int snum) {
 /* Tarea 6.2 */
 game_state_t* initialize_snakes(game_state_t* state) {
   // TODO: Implementar esta funcion.
-state->num_snakes = 0;
+    unsigned int num = 0;
 
-    state->snakes = malloc(sizeof(snake_t) * state->num_rows); 
+    for (unsigned int row = 0; row < state->num_rows; row++) {
+        for (unsigned int col = 0; col < strlen(state->board[row]); col++) {
+            char c state->board[row][col];
 
-    for (unsigned int i = 0; i < state->num_rows; i++) {
-        for (unsigned int j = 0; j < strlen(state->board[i]); j++) {
-            char tile = get_board_at(state, i, j);
-
-            if (tile == '^' || tile == 'v' || tile == '<' || tile == '>') {
-                snake_t* snake = &state->snakes[state->num_snakes];
-                snake->tail_row = i;
-                snake->tail_col = j;
-                snake->live = true;
-
-                find_head(state, state->num_snakes);
-                
-                state->num_snakes++;
+            if (c == '^' || c == 'v' || c == '<' || c == '>') {
+                num++;
             }
         }
     }
+
+    state->num_snakes = num;
+    state->snakes = malloc(num * sizeof(snake_t));
     
-    if (state->num_snakes == 0) {
-        printf("No se encontraron serpientes en el tablero.\n");
-        free(state->snakes);
-        return NULL;
+    unsigned int index = 0;
+    for (unsigned int row = 0; row < state->num_rows; row++){
+        for (unsigned int col = 0; col < strlen(state->board[row]); col++) {
+            char c = state->board[row][col];
+            if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
+                snake_t* snake = &state->snakes[index++];
+                snake->tail_row = row;
+                snake->tail_col = col;
+                snake->live = true;
+
+                find_head(state, index - 1);
+            }
+        }
     }
-  return state;
 }
