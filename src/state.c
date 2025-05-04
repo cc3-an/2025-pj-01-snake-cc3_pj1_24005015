@@ -305,7 +305,7 @@ static void update_tail(game_state_t* state, unsigned int snum) {
   else if (tail_char == 'a') new_col--;
   else if (tail_char == 'd') new_col++;
 
-  unsigned int body_char = (unsigned int) get_board_at(state, new_row, new_col);
+  char body_char = get_board_at(state, (unsigned int)new_row, (unsigned int)new_col);
   char new_tail_char = body_to_tail(body_char);
   set_board_at(state, (unsigned int)new_row, (unsigned int)new_col, new_tail_char);
 
@@ -329,7 +329,7 @@ void update_state(game_state_t* state, int (*add_food)(game_state_t* state)) {
 
     unsigned int next_row = (unsigned int) get_next_row(head_row, head_char);
     unsigned int next_col = (unsigned int) get_next_col(head_col, head_char);
-    unsigned int next_tile = (unsigned int) get_board_at(state, next_row, next_col);
+    char next_tile = get_board_at(state, (unsigned int)next_row, (unsigned int)next_col);
 
     if (next_tile == '#' || is_snake(next_tile)) {
        snake->live = false;
@@ -372,35 +372,51 @@ game_state_t* load_board(char* filename) {
     state->snakes = NULL;
     state->num_snakes = 0;
 
-    char buffer[1024];
-    while (fgets(buffer, sizeof(buffer), fp)) {
-        size_t len = strlen(buffer);
-        if (len > 0 && buffer[len - 1] == '\n') {
-            buffer[len - 1] = '\0';
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+
+    unsigned int num_snakes = 0;
+
+    while ((read = getline(&line, &len, fp)) != -1) 
+        if (read > 0 && line[read - 1] == '\n') {
+            line[read - 1] = '\0';
+            read--;
         }
 
         char **new_board = realloc(state->board, sizeof(char *) * (state->num_rows + 1));
         if (new_board == NULL) {
             fprintf(stderr, "Error: no se pudo realocar memoria para el tablero\n");
+            free(line);
             fclose(fp);
             exit(1);
         }
         state->board = new_board;
 
-        char *row_copy = malloc(len + 1);
+        char *row_copy = malloc(read + 1);
         if (row_copy == NULL) {
             fprintf(stderr, "Error: no se pudo asignar memoria para una fila\n");
+            free(line);
             fclose(fp);
             exit(1);
         }
-        strcpy(row_copy, buffer);
+        strcpy(row_copy, line);
         state->board[state->num_rows] = row_copy;
         state->num_rows++;
+
+        for (unsigned int i = 0; i < read; i++) {
+            char c = line[i];
+            if (c == 'W' || c == 'A' || c == 'S' || c == 'D'){
+                num_snakes++;
+            }
+        }
     }
 
+    free(line);
     fclose(fp);
 
-    state->snakes = find_snakes(state, &state->num_snakes);
+    state->num_snakes = num_snakes;
+    state->snakes = malloc(num_snakes * sizeof(snake_t));
 
     return state;         
 
