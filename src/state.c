@@ -436,24 +436,29 @@ static void find_head(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
     snake_t* snake = &state->snakes[snum];
     
-    unsigned int tail_row = snake->tail_row;
-    unsigned int tail_col = snake->tail_col;
+    unsigned int row = snake->tail_row;
+    unsigned int col = snake->tail_col;
     
-    char tail_char = get_board_at(state, tail_row, tail_col);
-    
-    unsigned int head_row = tail_row;
-    unsigned int head_col = tail_col;
-    
-    if (tail_char == 'w') {
-        head_row++; 
-    } else if (tail_char == 's') {
-        head_row--; 
-    } else if (tail_char == 'a') {
-        head_col++; 
-    } else if (tail_char == 'd') {
-        head_col--; 
+    while (true) {
+        char current = get_board_at(state, row, col);
+
+        if (current == 'W' || current == 'A' || current == 'S' || current == 'D') {
+            break;
+        }
+
+        if (current == '^') {
+            row--;
+        } else if (current == 'v') {
+            row++;
+        } else if (current == '<') {
+            col--;
+        } else if (current == '>') {
+            col++;
+        } else {
+            break;
+        }
     }
-    
+
     snake->head_row = head_row;
     snake->head_col = head_col;
 }
