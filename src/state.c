@@ -378,7 +378,7 @@ game_state_t* load_board(char* filename) {
 
     unsigned int num_snakes = 0;
 
-    while ((read = getline(&line, &len, fp)) != -1) 
+    while ((read = getline(&line, &len, fp)) != -1){ 
         if (read > 0 && line[read - 1] == '\n') {
             line[read - 1] = '\0';
             read--;
