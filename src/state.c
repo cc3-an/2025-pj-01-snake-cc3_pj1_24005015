@@ -442,10 +442,6 @@ static void find_head(game_state_t* state, unsigned int snum) {
     while (true) {
         char current = get_board_at(state, row, col);
 
-        if (current == 'W' || current == 'A' || current == 'S' || current == 'D') {
-            break;
-        }
-
         if (current == '^') {
             row--;
         } else if (current == 'v') {
