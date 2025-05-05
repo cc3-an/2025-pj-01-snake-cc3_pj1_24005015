@@ -434,27 +434,33 @@ game_state_t* load_board(char* filename) {
 */
 static void find_head(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
-    snake_t* snake = &state->snakes[snum];    
     unsigned int row = snake->tail_row;
     unsigned int col = snake->tail_col;
+    char c = state->board[row][col];
     
-    while (1) {
-        char c = get_board_at(state, row, col);
+    while (true) {
+        row = get_next_row(row, c);
+        col = get_next_col(col, c);
+        c = state->board[row][col];
 
-        if (c == '>' || c == '<' || c == '^' || c == 'v' || c == 'd' || c == 'a' || c == 'w' || c == 's') {
-            break;
+        if (c == '>' || c == '<' || c == '^' || c == 'v' ||
+            c == 'd' || c == 'a' || c == 'w' || c == 's') {
+
+            unsigned int next_row = get_next_row(row, c);
+            unsigned int next_col = get_next_col(col, c);
+            char next_c = state->board[next_row][next_col];
+
+            if (next_c != '#' && next_c != '-' && next_c != '|' &&
+                next_c != '<' && next_c != '>' && next_c != '^' && next_c != 'v') {
+                break;
+            }
         }
-
-        unsigned int next_row = get_next_row(row, c);
-        unsigned int next_col = get_next_col(col, c);
-
-        row = next_row;
-        col = next_col;
-
     }
+
 
     snake->head_row = row;
     snake->head_col = col;
+    return snake;
 }
 
 /* Tarea 6.2 */
