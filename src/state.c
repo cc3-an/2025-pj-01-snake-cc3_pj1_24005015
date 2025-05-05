@@ -484,8 +484,9 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
 
                     if (current == 'w' || current == 'a' || current == 's' || current == 'd') {
-                        snake->tail_row = row;
-                        snake->tail_col = col;
+                        tail_row = row;
+                        tail_col = col;
+                        found_tail = true;
                         break;
                     }
 
@@ -495,7 +496,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
                         break;
                     }
                 }
-                if (valid) {
+                if (found_tail) {
                     snake_t* snake = &state->snakes[state->num_snakes++];
                     snake->head_row = i;
                     snake->head_col = j;
