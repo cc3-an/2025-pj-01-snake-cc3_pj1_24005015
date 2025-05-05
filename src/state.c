@@ -474,9 +474,10 @@ game_state_t* initialize_snakes(game_state_t* state) {
                 unsigned int col = j;
                 char current = c;
 
-                for (int steps = 0; steps < 1000; steps++) {
+                while (true) {
                     row = get_next_row(row, c);
                     col = get_next_col(col, c);
+
                     c = state->board[row][col];
 
                     if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
@@ -490,6 +491,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
                         break;
                     }
                 }
+
             }
         }
     }           
