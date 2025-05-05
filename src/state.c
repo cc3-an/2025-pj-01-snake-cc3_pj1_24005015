@@ -490,7 +490,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
                     if (current != '>' && current != '<' && current != '^' && current != 'v') {
                         printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, current);
-                        valid = false;
+                        found_tail = false;
                         break;
                     }
                 }
