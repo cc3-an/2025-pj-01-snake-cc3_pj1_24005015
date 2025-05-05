@@ -462,9 +462,9 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
     for (unsigned int i = 0; i < state->num_rows; i++) {
         for (unsigned int j = 0; j < strlen(state->board[i]); j++) {
-            char c = state->board[i][j];
+            char head_char = state->board[i][j];
 
-            if (c == 'W' || c == 'A' || c == 'S' || c == 'D') {
+            if (head_char == 'W' || head_char == 'A' || head_char == 'S' || head_char == 'D') {
                 snake_t* snake = &state->snakes[state->num_snakes++];
                 snake->head_row = i;
                 snake->head_col = j;
@@ -472,22 +472,25 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
                 unsigned int row = i;
                 unsigned int col = j;
-                char current = c;
+                char dir = head_char;
 
-                while (true) {
-                    row = get_next_row(row, c);
-                    col = get_next_col(col, c);
+                while (1) {
+                    row = get_next_row(row, dir);
+                    col = get_next_col(col, dir);
 
-                    c = state->board[row][col];
+                    char next = state->board[row][col];
 
-                    if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
+                    if (next == 'w' || next == 'a' || next == 's' || next == 'd') {
                         snake->tail_row = row;
                         snake->tail_col = col;
                         break;
                     }
 
-                    if (c != '>' && c != '<' && c != '^' && c != 'v') {
-                        printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, c);
+                    if (next != '>' && next != '<' && next != '^' && next != 'v') {
+                         dir = next;
+                     } else {
+                        printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, next);
+                        state->num_snakes--;
                         break;
                     }
                 }
