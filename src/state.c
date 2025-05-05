@@ -472,31 +472,22 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
                 unsigned int row = i;
                 unsigned int col = j;
-                char dir = head_char;
+                char current = c;
 
-                while (1) {
-                    row = get_next_row(row, dir);
-                    col = get_next_col(col, dir);
+                while (true) {
+                    row = get_next_row(row, current);
+                    col = get_next_col(col, current);
+                    current = state->board[row][col];
 
-                    if (row >= state->num_rows || col >= strlen(state->board[row])) {
-                        printf("[ERROR] Fuera de límites en (%u, %u)\n", row, col);
-                        state->num_snakes--;  
-                        break;
-                    }
 
-                    char next = state->board[row][col];
-
-                    if (next == 'w' || next == 'a' || next == 's' || next == 'd') {
+                    if (current == 'w' || current == 'a' || current == 's' || current == 'd') {
                         snake->tail_row = row;
                         snake->tail_col = col;
                         break;
                     }
 
-                    if (next != '>' && next != '<' && next != '^' && next != 'v') {
-                         dir = next;
-                     } else {
-                        printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, next);
-                        state->num_snakes--;
+                    if (current != '>' && current != '<' && current != '^' && current != 'v') {
+                        printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, current);
                         break;
                     }
                 }
