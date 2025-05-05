@@ -481,13 +481,30 @@ game_state_t* initialize_snakes(game_state_t* state) {
     for (unsigned int row = 0; row < state->num_rows; row++){
         for (unsigned int col = 0; col < strlen(state->board[row]); col++) {
             char c = state->board[row][col];
-            if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
-                snake_t* snake = &state->snakes[index++];
-                snake->tail_row = row;
-                snake->tail_col = col;
+            if (c == '^' || c == 'v' || c == '<' || c == '>') {
+ unsigned int cur_row = row;
+                unsigned int cur_col = col;
+
+                while (true) {
+                    char body = get_board_at(state, cur_row, cur_col);
+                    unsigned int prev_row = get_next_row(cur_row, body);
+                    unsigned int prev_col = get_next_col(cur_col, body);
+                    char prev_c = get_board_at(state, prev_row, prev_col);
+                    if (prev_c != 'w' && prev_c != 'a' && prev_c != 's' && prev_c != 'd') {
+                        break;
+                    }
+
+                    cur_row = prev_row;
+                    cur_col = prev_col;
+                }
+
+                snake_t* snake = &state->snakes[index];
+                snake->tail_row = cur_row;
+                snake->tail_col = cur_col;
                 snake->live = true;
 
-                find_head(state, index - 1);
+                find_head(state, index);
+                index++;
             }
         }
     }
