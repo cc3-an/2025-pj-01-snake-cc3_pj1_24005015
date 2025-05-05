@@ -475,19 +475,18 @@ game_state_t* initialize_snakes(game_state_t* state) {
                 char current = c;
 
                 for (int steps = 0; steps < 1000; steps++) {
-                    row = get_next_row(row, current);
-                    col = get_next_col(col, current);
+                    row = get_next_row(row, c);
+                    col = get_next_col(col, c);
                     c = state->board[row][col];
 
-                    if (current == 'w' || current == 'a' || current == 's' || current == 'd') {
+                    if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
                         snake->tail_row = row;
                         snake->tail_col = col;
                         break;
                     }
 
-                    if (current != '>' && current != '<' && current != '^' && current != 'v') {
-                        // Error: cuerpo mal formado
-                        printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, current);
+                    if (c != '>' && c != '<' && c != '^' && c != 'v') {
+                        printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, c);
                         break;
                     }
                 }
