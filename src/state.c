@@ -477,7 +477,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
                 for (int steps = 0; steps < 1000; steps++) {
                     row = get_next_row(row, current);
                     col = get_next_col(col, current);
-                    current = state->board[row][col];
+                    c = state->board[row][col];
 
                     if (current == 'w' || current == 'a' || current == 's' || current == 'd') {
                         snake->tail_row = row;
