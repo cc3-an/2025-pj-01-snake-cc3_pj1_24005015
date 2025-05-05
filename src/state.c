@@ -466,8 +466,6 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
             if (head_char == 'W' || head_char == 'A' || head_char == 'S' || head_char == 'D') {
                 snake_t* snake = &state->snakes[state->num_snakes++];
-                snake->head_row = i;
-                snake->head_col = j;
 
                 unsigned int row = i;
                 unsigned int col = j;
@@ -475,7 +473,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
                 unsigned int tail_row = 0;
                 unsigned int tail_col = 0;
-                bool valid = false;
+                bool found_tail = false;
 
                 while (true) {
                     row = get_next_row(row, current);
