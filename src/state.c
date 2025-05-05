@@ -446,9 +446,7 @@ static void find_head(game_state_t* state, unsigned int snum) {
 
         char next_c = get_board_at(state, next_row, next_col);
 
-        if (c == '^' || c == 'v' || c == '<' || c == '>') {
-            row = next_row;
-            col = next_col;
+        if (next_c != 'w' && next_c != 'a' && next_c != 's' && next_c != 'd') {
             break;
         }
 
@@ -493,4 +491,5 @@ game_state_t* initialize_snakes(game_state_t* state) {
             }
         }
     }
+    return state;
 }
