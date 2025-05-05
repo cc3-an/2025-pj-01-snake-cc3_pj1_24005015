@@ -469,6 +469,9 @@ game_state_t* initialize_snakes(game_state_t* state) {
                 snake->head_row = i;
                 snake->head_col = j;
 
+                unsigned int row = i;
+                unsigned int row = j;
+                char current = head_char;
 
                 unsigned int tail_row = 0;
                 unsigned int tail_col = 0;
