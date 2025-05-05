@@ -478,6 +478,12 @@ game_state_t* initialize_snakes(game_state_t* state) {
                     row = get_next_row(row, dir);
                     col = get_next_col(col, dir);
 
+                    if (row >= state->num_rows || col >= strlen(state->board[row])) {
+                        printf("[ERROR] Fuera de límites en (%u, %u)\n", row, col);
+                        state->num_snakes--;  
+                        break;
+                    }
+
                     char next = state->board[row][col];
 
                     if (next == 'w' || next == 'a' || next == 's' || next == 'd') {
