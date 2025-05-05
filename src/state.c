@@ -458,51 +458,33 @@ static void find_head(game_state_t* state, unsigned int snum) {
 /* Tarea 6.2 */
 game_state_t* initialize_snakes(game_state_t* state) {
   // TODO: Implementar esta funcion.
-    unsigned int num = 0;
+    state->num_snakes = 0;
 
-    for (unsigned int row = 0; row < state->num_rows; row++) {
-        for (unsigned int col = 0; col < strlen(state->board[row]); col++) {
-            char c = state->board[row][col];
+    for (unsigned int i = 0; i < state->num_rows; i++) {
+        for (unsigned int j = 0; j < strlen(state->board[i]); j++) {
+            char c = state->board[i][j];
 
-            if (c == '^' || c == 'v' || c == '<' || c == '>') {
-                num++;
-            }
-        }
-    }
+            if (c == 'W' || c == 'A' || c == 'S' || c == 'D') {
+                snake_t* snake = &state->snakes[state->num_snakes++];
+                snake->head_row = i;
+                snake->head_col = j;
 
-    state->num_snakes = num;
-    state->snakes = malloc(num * sizeof(snake_t));
-    
-    unsigned int index = 0;
-    for (unsigned int row = 0; row < state->num_rows; row++){
-        for (unsigned int col = 0; col < strlen(state->board[row]); col++) {
-            char c = state->board[row][col];
-            if (c == '^' || c == 'v' || c == '<' || c == '>') {
- unsigned int cur_row = row;
-                unsigned int cur_col = col;
+
+                unsigned int row = i;
+                unsigned int col = j;
 
                 while (true) {
-                    char body = get_board_at(state, cur_row, cur_col);
-                    unsigned int prev_row = get_next_row(cur_row, body);
-                    unsigned int prev_col = get_next_col(cur_col, body);
-                    char prev_c = get_board_at(state, prev_row, prev_col);
-                    if (prev_c != 'w' && prev_c != 'a' && prev_c != 's' && prev_c != 'd') {
+                    row = get_next_row(row, c);
+                    col = get_next_col(col, c);
+                    c = state->board[row][col];
+
+                    if (c == 'w' || c == 'a' || c == 's' || c == 'd') {
+                        snake->tail_row = row;
+                        snake->tail_col = col;
                         break;
                     }
-
-                    cur_row = prev_row;
-                    cur_col = prev_col;
                 }
-
-                snake_t* snake = &state->snakes[index];
-                snake->tail_row = cur_row;
-                snake->tail_col = cur_col;
-                snake->live = true;
-
-                find_head(state, index);
-                index++;
             }
         }
-    }
-    return state;
+    }                  
 }
