@@ -472,7 +472,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
                 unsigned int row = i;
                 unsigned int col = j;
-                char current = c;
+                char current = head_char;
 
                 while (true) {
                     row = get_next_row(row, current);
