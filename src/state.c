@@ -491,7 +491,7 @@ game_state_t* initialize_snakes(game_state_t* state) {
                         break;
                     }
                 }
-                state->num_snkes++;
+                state->num_snakes++;
 
             }
         }
