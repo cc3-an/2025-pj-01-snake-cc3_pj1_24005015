@@ -470,9 +470,9 @@ game_state_t* initialize_snakes(game_state_t* state) {
                 snake->head_col = j;
 
 
-                unsigned int row = i;
-                unsigned int col = j;
-                char current = head_char;
+                unsigned int tail_row = 0;
+                unsigned int tail_col = 0;
+                bool valid = false;
 
                 while (true) {
                     row = get_next_row(row, current);
@@ -488,11 +488,18 @@ game_state_t* initialize_snakes(game_state_t* state) {
 
                     if (current != '>' && current != '<' && current != '^' && current != 'v') {
                         printf("[ERROR] Cuerpo de la serpiente inválido en (%u, %u): %c\n", row, col, current);
+                        valid = false;
                         break;
                     }
                 }
-                state->num_snakes++;
-
+                if (valid) {
+                    snake_t* snake = &state->snakes[state->num_snakes++];
+                    snake->head_row = i;
+                    snake->head_col = j;
+                    snake->tail_row = tail_row;
+                    snake->tail_col = tail_col;
+                    snake->live = true;
+                }
             }
         }
     }           
