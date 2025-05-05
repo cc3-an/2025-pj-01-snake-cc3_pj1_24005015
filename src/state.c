@@ -434,20 +434,26 @@ game_state_t* load_board(char* filename) {
 */
 static void find_head(game_state_t* state, unsigned int snum) {
   // TODO: Implementar esta funcion.
-    snake_t* snake = &state->snakes[snum];
-    
+    snake_t* snake = &state->snakes[snum];    
     unsigned int row = snake->tail_row;
     unsigned int col = snake->tail_col;
     
     while (true) {
         char c = get_board_at(state, row, col);
 
+        unsigned int next_row = get_next_row(row, c);
+        unsigned int next_col = get_next_col(col, c);
+
+        char next_c = get_board_at(state, next_row, next_col);
+
         if (c == '^' || c == 'v' || c == '<' || c == '>') {
+            row = next_row;
+            col = next_col;
             break;
         }
 
-        row = get_next_row(row, c);
-        col = get_next_col(col, c);
+        row = next_row;
+        col = next_col;
 
     }
 
