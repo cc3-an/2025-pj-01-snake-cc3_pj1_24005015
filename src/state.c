@@ -438,7 +438,7 @@ static void find_head(game_state_t* state, unsigned int snum) {
     unsigned int row = snake->tail_row;
     unsigned int col = snake->tail_col;
     
-    while (true) {
+    while (1) {
         char c = get_board_at(state, row, col);
 
         if (c == '^' || c == 'v' || c == '<' || c == '>') {
